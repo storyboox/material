@@ -1,13 +1,38 @@
 // also exported from '@storybook/angular' if you can deal with breaking changes in 6.1
 import {Meta, Story} from '@storybook/angular/types-6-0';
 import {moduleMetadata} from '@storybook/angular';
-import {MatCheckbox} from '@angular/material/checkbox';
 import {MatButton, MatButtonModule} from '@angular/material/button';
 import {action} from '@storybook/addon-actions';
-import {BOOLEAN, COLOR, TEXT} from './arg-types';
+import {BOOLEAN, COLOR, ICONS, TEXT} from './arg-types';
 import {MatIconModule} from '@angular/material/icon';
+import {CommonModule} from '@angular/common';
+import {copyStory} from './utils';
 
-const click = action('onClick');
+enum ButtonType {
+  Basic = 'mat-button',
+  Raised = 'mat-raised-button',
+  Stroked = 'mat-stroked-button',
+  Flat = 'mat-flat-button'
+}
+
+enum IconType {
+  Icon = 'mat-icon-button',
+  Fab = 'mat-fab',
+  MiniFab = 'mat-mini-fab'
+}
+
+const buttonTemplate = (type: string) => `<button ${type}
+                                              [color]="color"
+                                              [disableRipple]="disableRipple"
+                                              [disabled]="disabled"
+                                              (click)="click($event)">{{label}}</button>`;
+
+const iconButtonTemplate = (type: string) => `<button ${type}
+                                              [color]="color"
+                                              [disableRipple]="disableRipple"
+                                              [disabled]="disabled"
+                                              (click)="click($event)"><mat-icon>{{icon}}</mat-icon></button>`;
+type TypedButton = MatButton & { type: string };
 
 export default {
   title: 'Material/Button',
@@ -19,7 +44,7 @@ export default {
     disabled: BOOLEAN,
     // extra
     label: TEXT,
-    // click: action('click'),
+    icon: ICONS
   },
   args: {
     // inputs
@@ -28,40 +53,46 @@ export default {
     disabled: false,
     // extra
     label: 'Label',
+    icon: 'home',
     type: 'mat-button',
     // output
     click: action('click'),
   },
   decorators: [
     moduleMetadata({
-      imports: [MatButtonModule, MatIconModule],
+      imports: [CommonModule, MatButtonModule, MatIconModule],
     })
   ],
 } as Meta;
 
-const Template: Story<MatCheckbox> = (args: MatCheckbox & { type: string }) => ({
-  template: `<button ${args.type}
-                [color]="color"
-                [disableRipple]="disableRipple"
-                [disabled]="disabled"
-                (click)="click($event)">{{label}}</button>`,
-  props: args,
+// Templates Stories
+const Button: Story<MatButton> = (props: TypedButton) => ({
+  template: buttonTemplate(props.type),
+  props
 });
 
-export const Basic = Template.bind({});
-Basic.args = {
-  type: 'mat-button',
-};
-export const Raised = Template.bind({});
-Raised.args = {
-  type: 'mat-raised-button'
-};
-export const Stroked = Template.bind({});
-Stroked.args = {
-  type: 'mat-stroked-button'
-};
-export const Flat = Template.bind({});
-Flat.template = '<div></div>';
-Flat.args = {
-  type: 'mat-flat-button'
-};
+const IconButton: Story<MatButton> = (props: MatButton & { type: string }) => ({
+  template: iconButtonTemplate(props.type),
+  props
+});
+
+// Factories
+const createButton = (type: ButtonType) => copyStory(Button, {type});
+const createIcon = (type: IconType) => copyStory(IconButton, {type});
+
+// Stories
+export const Basic = createButton(ButtonType.Basic);
+export const Raised = createButton(ButtonType.Raised);
+export const Stroked = createButton(ButtonType.Stroked);
+export const Flat = createButton(ButtonType.Flat);
+export const Icon = createIcon(IconType.Icon);
+export const Fab = createIcon(IconType.Fab);
+export const MiniFab = createIcon(IconType.MiniFab);
+
+const buttons = Object.values(ButtonType).map(type => buttonTemplate(type));
+const icons = Object.values(IconType).map(type => iconButtonTemplate(type));
+
+export const AllButtons: Story<any> = (props: any) => ({
+  template: '<span>' + [...buttons, ...icons].join('</span><span>') + '</span>';
+  props
+});
