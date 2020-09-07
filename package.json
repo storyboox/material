@@ -10,7 +10,8 @@
     "e2e": "ng e2e",
     "docs:json": "compodoc -p ./tsconfig.base.json -e json -d .",
     "storybook": "npm run docs:json && start-storybook -p 6006",
-    "build-storybook": "npm run docs:json && build-storybook"
+    "prebuild-storybook": "rm -rf ../storyboox.github.io/material",
+    "build-storybook": "npm run docs:json && build-storybook -o ../storyboox.github.io/material"
   },
   "private": true,
   "dependencies": {
