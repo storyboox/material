@@ -245,6 +245,22 @@
     "miscellaneous": {
         "variables": [
             {
+                "name": "badge",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-badge.stories.ts",
+                "type": "string",
+                "defaultValue": "'[matBadge]=\"content\" [matBadgeOverlap]=\"overlap\" [matBadgeDisabled]=\"disabled\" [matBadgeHidden]=\"hidden\" [matBadgePosition]=\"position\" [matBadgeSize]=\"size\" [matBadgeColor]=\"color\"'"
+            },
+            {
+                "name": "badgePositions",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/common/types.ts",
+                "type": "BadgePosition[]",
+                "defaultValue": "Object.values(BadgePosition)"
+            },
+            {
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -253,20 +269,44 @@
                 "defaultValue": "createButton(ButtonType.Basic)"
             },
             {
+                "name": "button",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button.stories.ts",
+                "type": "",
+                "defaultValue": "`<button %s\n    [color]=\"color\"\n    [disableRipple]=\"disableRipple\"\n    [disabled]=\"disabled\"\n    (click)=\"click($event)\">{{label}}</button>`"
+            },
+            {
+                "name": "ButtonBadge",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-badge.stories.ts",
+                "type": "Story",
+                "defaultValue": "props => ({template: `<button mat-raised-button color=\"primary\" ${badge}>Action</button>`, props})"
+            },
+            {
+                "name": "buttonIcon",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button.stories.ts",
+                "type": "",
+                "defaultValue": "`<button %s\n    [color]=\"color\"\n    [disableRipple]=\"disableRipple\"\n    [disabled]=\"disabled\"\n    (click)=\"click($event)\"><mat-icon>{{icon}}</mat-icon></button>`"
+            },
+            {
+                "name": "Buttons",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button-toggle.stories.ts",
+                "type": "Story",
+                "defaultValue": "props => ({template: toggle, props})"
+            },
+            {
                 "name": "ButtonStory",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "Story<MatButton>",
-                "defaultValue": "(props: TypedButton) => ({template: buttonTpl(props.type), props})"
-            },
-            {
-                "name": "buttonTpl",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/common/mat-templates.ts",
-                "type": "",
-                "defaultValue": "(type: ButtonType | IconType, content: string = '{{label}}') =>\n  `<button ${type}\n      [color]=\"color\"\n      [disableRipple]=\"disableRipple\"\n      [disabled]=\"disabled\"\n      (click)=\"click($event)\">${content}</button>`"
+                "defaultValue": "(props: TypedButton) => ({template: format(button, props.type), props})"
             },
             {
                 "name": "buttonTypes",
@@ -341,6 +381,14 @@
                 "defaultValue": "createButton(ButtonType.Flat)"
             },
             {
+                "name": "format",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/common/utils.ts",
+                "type": "",
+                "defaultValue": "(tpl: string, ...args: string[]) => args.reduce((acc, val) => acc.replace('%s', val), tpl)"
+            },
+            {
                 "name": "Icon",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -349,20 +397,28 @@
                 "defaultValue": "createIcon(IconType.Icon)"
             },
             {
+                "name": "IconBadge",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-badge.stories.ts",
+                "type": "Story",
+                "defaultValue": "props => ({template: `<mat-icon ${badge}>home</mat-icon>`, props})"
+            },
+            {
+                "name": "IconButtons",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button-toggle.stories.ts",
+                "type": "Story",
+                "defaultValue": "props => ({template: toggleIcons, props})"
+            },
+            {
                 "name": "IconButtonStory",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "Story<MatButton>",
-                "defaultValue": "(props: TypedButton) => ({template: buttonTpl(props.type, iconTpl(IconType.PlaceHolder)), props})"
-            },
-            {
-                "name": "iconTpl",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/common/mat-templates.ts",
-                "type": "",
-                "defaultValue": "(icon: IconType) =>\n  `<mat-icon>${icon}</mat-icon>`"
+                "defaultValue": "(props: TypedButton) => ({template: format(buttonIcon, props.type), props})"
             },
             {
                 "name": "iconTypes",
@@ -418,7 +474,7 @@
                 "subtype": "variable",
                 "file": "src/stories/common/mat-controls.ts",
                 "type": "object",
-                "defaultValue": "{\n  Color: {control: {type: 'inline-radio', options: ['primary', 'accent', 'warn']}},\n  Appearance: {control: {type: 'inline-radio', options: ['standard', 'legacy']}},\n  Boolean: {control: 'boolean'},\n  Text: {control: 'text'},\n  Icons: {control: {type: 'select', options: ['home', 'favorite', 'open_in_new', 'menu']}}\n}"
+                "defaultValue": "{\n  Color: {control: {type: 'inline-radio', options: ['primary', 'accent', 'warn']}},\n  Appearance: {control: {type: 'inline-radio', options: ['standard', 'legacy']}},\n  Boolean: {control: 'boolean'},\n  Text: {control: 'text'},\n  Icons: {control: {type: 'select', options: ['home', 'favorite', 'open_in_new', 'menu']}},\n  Size: {control: {type: 'select', options: ['small', 'medium', 'large']}},\n\n  select(options: string[]): any {\n    return {control: {type: 'select', options}};\n  }\n}"
             },
             {
                 "name": "MiniFab",
@@ -479,14 +535,6 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "tmp/Button.stories.ts",
-                "type": "Story<Button>",
-                "defaultValue": "(args: Button) => ({\n  component: Button,\n  props: args,\n})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "tmp/Header.stories.ts",
                 "type": "Story<Header>",
                 "defaultValue": "(args: Header) => ({\n  component: Header,\n  props: args,\n})"
@@ -500,12 +548,36 @@
                 "defaultValue": "(args: Page) => ({\n  component: Page,\n  props: args,\n})"
             },
             {
-                "name": "toggleTpl",
+                "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/common/mat-templates.ts",
+                "file": "tmp/Button.stories.ts",
+                "type": "Story<Button>",
+                "defaultValue": "(args: Button) => ({\n  component: Button,\n  props: args,\n})"
+            },
+            {
+                "name": "TextBadge",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-badge.stories.ts",
+                "type": "Story",
+                "defaultValue": "props => ({template: `<span ${badge}>Text with a badge</span>`, props})"
+            },
+            {
+                "name": "toggle",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button-toggle.stories.ts",
                 "type": "",
-                "defaultValue": "() =>\n  `<mat-button-toggle-group\n        (change)=\"change($event)\"\n        [appearance]=\"appearance\"\n        [disabled]=\"disabled\"\n        [multiple]=\"multiple\"\n        [name]=\"name\"\n        [value]=\"value\"\n        [vertical]=\"vertical\">\n    <mat-button-toggle value=\"bold\">Bold</mat-button-toggle>\n    <mat-button-toggle value=\"italic\">Italic</mat-button-toggle>\n    <mat-button-toggle value=\"underline\">Underline</mat-button-toggle>\n  </mat-button-toggle-group>`"
+                "defaultValue": "`<mat-button-toggle-group\n  (change)=\"change($event)\"\n  [appearance]=\"appearance\"\n  [disabled]=\"disabled\"\n  [multiple]=\"multiple\"\n  [name]=\"name\"\n  [value]=\"value\"\n  [vertical]=\"vertical\">\n  <mat-button-toggle value=\"bold\">Bold</mat-button-toggle>\n  <mat-button-toggle value=\"italic\">Italic</mat-button-toggle>\n  <mat-button-toggle value=\"underline\">Underline</mat-button-toggle>\n</mat-button-toggle-group>`"
+            },
+            {
+                "name": "toggleIcons",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button-toggle.stories.ts",
+                "type": "",
+                "defaultValue": "`<mat-button-toggle-group\n  (change)=\"change($event)\"\n  [appearance]=\"appearance\"\n  [disabled]=\"disabled\"\n  [multiple]=\"multiple\"\n  [name]=\"name\"\n  [value]=\"value\"\n  [vertical]=\"vertical\">\n  <mat-button-toggle value=\"left\" aria-label=\"Text align left\">\n    <mat-icon>format_align_left</mat-icon>\n  </mat-button-toggle>\n  <mat-button-toggle value=\"center\" aria-label=\"Text align center\">\n    <mat-icon>format_align_center</mat-icon>\n  </mat-button-toggle>\n  <mat-button-toggle value=\"right\" aria-label=\"Text align right\">\n    <mat-icon>format_align_right</mat-icon>\n  </mat-button-toggle>\n  <mat-button-toggle value=\"justify\" disabled aria-label=\"Text align justify\">\n    <mat-icon>format_align_justify</mat-icon>\n  </mat-button-toggle>\n</mat-button-toggle-group>`"
             }
         ],
         "functions": [],
@@ -521,6 +593,47 @@
             }
         ],
         "enumerations": [
+            {
+                "name": "BadgePosition",
+                "childs": [
+                    {
+                        "name": "AboveAfter",
+                        "value": "above after"
+                    },
+                    {
+                        "name": "AboveBefore",
+                        "value": "above before"
+                    },
+                    {
+                        "name": "BelowBefore",
+                        "value": "below before"
+                    },
+                    {
+                        "name": "BelowAfter",
+                        "value": "below after"
+                    },
+                    {
+                        "name": "Before",
+                        "value": "before"
+                    },
+                    {
+                        "name": "After",
+                        "value": "after"
+                    },
+                    {
+                        "name": "Above",
+                        "value": "above"
+                    },
+                    {
+                        "name": "Below",
+                        "value": "below"
+                    }
+                ],
+                "ctype": "miscellaneous",
+                "subtype": "enum",
+                "description": "",
+                "file": "src/stories/common/types.ts"
+            },
             {
                 "name": "ButtonType",
                 "childs": [
@@ -573,6 +686,66 @@
             }
         ],
         "groupedVariables": {
+            "src/stories/mat-badge.stories.ts": [
+                {
+                    "name": "badge",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-badge.stories.ts",
+                    "type": "string",
+                    "defaultValue": "'[matBadge]=\"content\" [matBadgeOverlap]=\"overlap\" [matBadgeDisabled]=\"disabled\" [matBadgeHidden]=\"hidden\" [matBadgePosition]=\"position\" [matBadgeSize]=\"size\" [matBadgeColor]=\"color\"'"
+                },
+                {
+                    "name": "ButtonBadge",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-badge.stories.ts",
+                    "type": "Story",
+                    "defaultValue": "props => ({template: `<button mat-raised-button color=\"primary\" ${badge}>Action</button>`, props})"
+                },
+                {
+                    "name": "IconBadge",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-badge.stories.ts",
+                    "type": "Story",
+                    "defaultValue": "props => ({template: `<mat-icon ${badge}>home</mat-icon>`, props})"
+                },
+                {
+                    "name": "TextBadge",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-badge.stories.ts",
+                    "type": "Story",
+                    "defaultValue": "props => ({template: `<span ${badge}>Text with a badge</span>`, props})"
+                }
+            ],
+            "src/stories/common/types.ts": [
+                {
+                    "name": "badgePositions",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/common/types.ts",
+                    "type": "BadgePosition[]",
+                    "defaultValue": "Object.values(BadgePosition)"
+                },
+                {
+                    "name": "buttonTypes",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/common/types.ts",
+                    "type": "ButtonType[]",
+                    "defaultValue": "Object.values(ButtonType)"
+                },
+                {
+                    "name": "iconTypes",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/common/types.ts",
+                    "type": "IconType[]",
+                    "defaultValue": "Object.values(IconType)"
+                }
+            ],
             "src/stories/mat-button.stories.ts": [
                 {
                     "name": "Basic",
@@ -583,12 +756,28 @@
                     "defaultValue": "createButton(ButtonType.Basic)"
                 },
                 {
+                    "name": "button",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "`<button %s\n    [color]=\"color\"\n    [disableRipple]=\"disableRipple\"\n    [disabled]=\"disabled\"\n    (click)=\"click($event)\">{{label}}</button>`"
+                },
+                {
+                    "name": "buttonIcon",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "`<button %s\n    [color]=\"color\"\n    [disableRipple]=\"disableRipple\"\n    [disabled]=\"disabled\"\n    (click)=\"click($event)\"><mat-icon>{{icon}}</mat-icon></button>`"
+                },
+                {
                     "name": "ButtonStory",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "Story<MatButton>",
-                    "defaultValue": "(props: TypedButton) => ({template: buttonTpl(props.type), props})"
+                    "defaultValue": "(props: TypedButton) => ({template: format(button, props.type), props})"
                 },
                 {
                     "name": "createButton",
@@ -636,7 +825,7 @@
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "Story<MatButton>",
-                    "defaultValue": "(props: TypedButton) => ({template: buttonTpl(props.type, iconTpl(IconType.PlaceHolder)), props})"
+                    "defaultValue": "(props: TypedButton) => ({template: format(buttonIcon, props.type), props})"
                 },
                 {
                     "name": "MiniFab",
@@ -663,48 +852,38 @@
                     "defaultValue": "createButton(ButtonType.Stroked)"
                 }
             ],
-            "src/stories/common/mat-templates.ts": [
+            "src/stories/mat-button-toggle.stories.ts": [
                 {
-                    "name": "buttonTpl",
+                    "name": "Buttons",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/stories/common/mat-templates.ts",
-                    "type": "",
-                    "defaultValue": "(type: ButtonType | IconType, content: string = '{{label}}') =>\n  `<button ${type}\n      [color]=\"color\"\n      [disableRipple]=\"disableRipple\"\n      [disabled]=\"disabled\"\n      (click)=\"click($event)\">${content}</button>`"
+                    "file": "src/stories/mat-button-toggle.stories.ts",
+                    "type": "Story",
+                    "defaultValue": "props => ({template: toggle, props})"
                 },
                 {
-                    "name": "iconTpl",
+                    "name": "IconButtons",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/stories/common/mat-templates.ts",
-                    "type": "",
-                    "defaultValue": "(icon: IconType) =>\n  `<mat-icon>${icon}</mat-icon>`"
+                    "file": "src/stories/mat-button-toggle.stories.ts",
+                    "type": "Story",
+                    "defaultValue": "props => ({template: toggleIcons, props})"
                 },
                 {
-                    "name": "toggleTpl",
+                    "name": "toggle",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/stories/common/mat-templates.ts",
+                    "file": "src/stories/mat-button-toggle.stories.ts",
                     "type": "",
-                    "defaultValue": "() =>\n  `<mat-button-toggle-group\n        (change)=\"change($event)\"\n        [appearance]=\"appearance\"\n        [disabled]=\"disabled\"\n        [multiple]=\"multiple\"\n        [name]=\"name\"\n        [value]=\"value\"\n        [vertical]=\"vertical\">\n    <mat-button-toggle value=\"bold\">Bold</mat-button-toggle>\n    <mat-button-toggle value=\"italic\">Italic</mat-button-toggle>\n    <mat-button-toggle value=\"underline\">Underline</mat-button-toggle>\n  </mat-button-toggle-group>`"
-                }
-            ],
-            "src/stories/common/types.ts": [
-                {
-                    "name": "buttonTypes",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/common/types.ts",
-                    "type": "ButtonType[]",
-                    "defaultValue": "Object.values(ButtonType)"
+                    "defaultValue": "`<mat-button-toggle-group\n  (change)=\"change($event)\"\n  [appearance]=\"appearance\"\n  [disabled]=\"disabled\"\n  [multiple]=\"multiple\"\n  [name]=\"name\"\n  [value]=\"value\"\n  [vertical]=\"vertical\">\n  <mat-button-toggle value=\"bold\">Bold</mat-button-toggle>\n  <mat-button-toggle value=\"italic\">Italic</mat-button-toggle>\n  <mat-button-toggle value=\"underline\">Underline</mat-button-toggle>\n</mat-button-toggle-group>`"
                 },
                 {
-                    "name": "iconTypes",
+                    "name": "toggleIcons",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/stories/common/types.ts",
-                    "type": "IconType[]",
-                    "defaultValue": "Object.values(IconType)"
+                    "file": "src/stories/mat-button-toggle.stories.ts",
+                    "type": "",
+                    "defaultValue": "`<mat-button-toggle-group\n  (change)=\"change($event)\"\n  [appearance]=\"appearance\"\n  [disabled]=\"disabled\"\n  [multiple]=\"multiple\"\n  [name]=\"name\"\n  [value]=\"value\"\n  [vertical]=\"vertical\">\n  <mat-button-toggle value=\"left\" aria-label=\"Text align left\">\n    <mat-icon>format_align_left</mat-icon>\n  </mat-button-toggle>\n  <mat-button-toggle value=\"center\" aria-label=\"Text align center\">\n    <mat-icon>format_align_center</mat-icon>\n  </mat-button-toggle>\n  <mat-button-toggle value=\"right\" aria-label=\"Text align right\">\n    <mat-icon>format_align_right</mat-icon>\n  </mat-button-toggle>\n  <mat-button-toggle value=\"justify\" disabled aria-label=\"Text align justify\">\n    <mat-icon>format_align_justify</mat-icon>\n  </mat-button-toggle>\n</mat-button-toggle-group>`"
                 }
             ],
             "src/test.ts": [
@@ -732,6 +911,14 @@
                     "file": "src/stories/common/utils.ts",
                     "type": "",
                     "defaultValue": "(storyFn: Story, args: Record<string, string> = {}) => {\n  const story = storyFn.bind({});\n  story.args = {...args};\n  return story;\n}"
+                },
+                {
+                    "name": "format",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/common/utils.ts",
+                    "type": "",
+                    "defaultValue": "(tpl: string, ...args: string[]) => args.reduce((acc, val) => acc.replace('%s', val), tpl)"
                 }
             ],
             "src/environments/environment.prod.ts": [
@@ -855,13 +1042,54 @@
                     "subtype": "variable",
                     "file": "src/stories/common/mat-controls.ts",
                     "type": "object",
-                    "defaultValue": "{\n  Color: {control: {type: 'inline-radio', options: ['primary', 'accent', 'warn']}},\n  Appearance: {control: {type: 'inline-radio', options: ['standard', 'legacy']}},\n  Boolean: {control: 'boolean'},\n  Text: {control: 'text'},\n  Icons: {control: {type: 'select', options: ['home', 'favorite', 'open_in_new', 'menu']}}\n}"
+                    "defaultValue": "{\n  Color: {control: {type: 'inline-radio', options: ['primary', 'accent', 'warn']}},\n  Appearance: {control: {type: 'inline-radio', options: ['standard', 'legacy']}},\n  Boolean: {control: 'boolean'},\n  Text: {control: 'text'},\n  Icons: {control: {type: 'select', options: ['home', 'favorite', 'open_in_new', 'menu']}},\n  Size: {control: {type: 'select', options: ['small', 'medium', 'large']}},\n\n  select(options: string[]): any {\n    return {control: {type: 'select', options}};\n  }\n}"
                 }
             ]
         },
         "groupedFunctions": {},
         "groupedEnumerations": {
             "src/stories/common/types.ts": [
+                {
+                    "name": "BadgePosition",
+                    "childs": [
+                        {
+                            "name": "AboveAfter",
+                            "value": "above after"
+                        },
+                        {
+                            "name": "AboveBefore",
+                            "value": "above before"
+                        },
+                        {
+                            "name": "BelowBefore",
+                            "value": "below before"
+                        },
+                        {
+                            "name": "BelowAfter",
+                            "value": "below after"
+                        },
+                        {
+                            "name": "Before",
+                            "value": "before"
+                        },
+                        {
+                            "name": "After",
+                            "value": "after"
+                        },
+                        {
+                            "name": "Above",
+                            "value": "above"
+                        },
+                        {
+                            "name": "Below",
+                            "value": "below"
+                        }
+                    ],
+                    "ctype": "miscellaneous",
+                    "subtype": "enum",
+                    "description": "",
+                    "file": "src/stories/common/types.ts"
+                },
                 {
                     "name": "ButtonType",
                     "childs": [
@@ -930,7 +1158,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 2,
+        "count": 1,
         "status": "low",
         "files": [
             {
@@ -964,31 +1192,11 @@
                 "status": "low"
             },
             {
-                "filePath": "src/stories/common/mat-templates.ts",
+                "filePath": "src/stories/common/types.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "buttonTpl",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/common/mat-templates.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "iconTpl",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/common/mat-templates.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "toggleTpl",
+                "name": "badgePositions",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -1024,11 +1232,121 @@
                 "status": "low"
             },
             {
+                "filePath": "src/stories/common/utils.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "format",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "badge",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "ButtonBadge",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "IconBadge",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "TextBadge",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button-toggle.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Buttons",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button-toggle.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "IconButtons",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button-toggle.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "toggle",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button-toggle.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "toggleIcons",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/stories/mat-button.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "Basic",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "button",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "buttonIcon",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
