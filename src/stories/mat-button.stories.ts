@@ -93,6 +93,6 @@ const buttons = Object.values(ButtonType).map(type => buttonTemplate(type));
 const icons = Object.values(IconType).map(type => iconButtonTemplate(type));
 
 export const AllButtons: Story<any> = (props: any) => ({
-  template: '<span>' + [...buttons, ...icons].join('</span><span>') + '</span>';
+  template: '<span>' + [...buttons, ...icons].join('</span><span>') + '</span>',
   props
 });

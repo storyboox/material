@@ -300,11 +300,7 @@
                 },
                 {
                     "type": "declarations",
-                    "elements": [
-                        {
-                            "name": "AppComponent"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "imports",
@@ -316,11 +312,7 @@
                 },
                 {
                     "type": "bootstrap",
-                    "elements": [
-                        {
-                            "name": "AppComponent"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "classes",
@@ -337,7 +329,7 @@
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "Story<any>",
-                "defaultValue": "(props: any) => ({\n  template: '',\n  props\n})"
+                "defaultValue": "(props: any) => ({\n  template: '<span>' + [...buttons, ...icons].join('</span><span>') + '</span>',\n  props\n})"
             },
             {
                 "name": "Basic",
@@ -345,7 +337,7 @@
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
-                "defaultValue": "create(Button, {\n  type: 'mat-button',\n})"
+                "defaultValue": "createButton(ButtonType.Basic)"
             },
             {
                 "name": "BOOLEAN",
@@ -362,6 +354,14 @@
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "Story<MatButton>",
                 "defaultValue": "(props: TypedButton) => ({\n  template: buttonTemplate(props.type),\n  props\n})"
+            },
+            {
+                "name": "buttons",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button.stories.ts",
+                "type": "",
+                "defaultValue": "Object.values(ButtonType).map(type => buttonTemplate(type))"
             },
             {
                 "name": "buttonTemplate",
@@ -388,12 +388,28 @@
                 "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
             },
             {
-                "name": "create",
+                "name": "copyStory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/utils.ts",
+                "type": "",
+                "defaultValue": "(storyFn: Story, args: Record<string, string> = {}) => {\n  const story = storyFn.bind({});\n  story.args = {...args};\n  return story;\n}"
+            },
+            {
+                "name": "createButton",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
-                "defaultValue": "<T>(story: Story, args: any = {}) => {\n  const s = story.bind({}, args || {});\n  // s.args = {...args};\n  return s;\n}"
+                "defaultValue": "(type: ButtonType) => copyStory(Button, {type})"
+            },
+            {
+                "name": "createIcon",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button.stories.ts",
+                "type": "",
+                "defaultValue": "(type: IconType) => copyStory(IconButton, {type})"
             },
             {
                 "name": "environment",
@@ -417,7 +433,7 @@
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
-                "defaultValue": "IconButton.bind({})"
+                "defaultValue": "createIcon(IconType.Fab)"
             },
             {
                 "name": "Flat",
@@ -425,7 +441,7 @@
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
-                "defaultValue": "Button.bind({})"
+                "defaultValue": "createButton(ButtonType.Flat)"
             },
             {
                 "name": "Icon",
@@ -433,7 +449,7 @@
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
-                "defaultValue": "IconButton.bind({})"
+                "defaultValue": "createIcon(IconType.Icon)"
             },
             {
                 "name": "IconButton",
@@ -450,6 +466,14 @@
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
                 "defaultValue": "(type: string) => `<button ${type}\n                                              [color]=\"color\"\n                                              [disableRipple]=\"disableRipple\"\n                                              [disabled]=\"disabled\"\n                                              (click)=\"click($event)\"><mat-icon>{{icon}}</mat-icon></button>`"
+            },
+            {
+                "name": "icons",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/mat-button.stories.ts",
+                "type": "",
+                "defaultValue": "Object.values(IconType).map(type => iconButtonTemplate(type))"
             },
             {
                 "name": "ICONS",
@@ -505,7 +529,7 @@
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
-                "defaultValue": "IconButton.bind({})"
+                "defaultValue": "createIcon(IconType.MiniFab)"
             },
             {
                 "name": "Primary",
@@ -521,7 +545,7 @@
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
-                "defaultValue": "Button.bind({})"
+                "defaultValue": "createButton(ButtonType.Raised)"
             },
             {
                 "name": "require",
@@ -552,7 +576,7 @@
                 "subtype": "variable",
                 "file": "src/stories/mat-button.stories.ts",
                 "type": "",
-                "defaultValue": "Button.bind({})"
+                "defaultValue": "createButton(ButtonType.Stroked)"
             },
             {
                 "name": "Template",
@@ -655,7 +679,7 @@
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "Story<any>",
-                    "defaultValue": "(props: any) => ({\n  template: '',\n  props\n})"
+                    "defaultValue": "(props: any) => ({\n  template: '<span>' + [...buttons, ...icons].join('</span><span>') + '</span>',\n  props\n})"
                 },
                 {
                     "name": "Basic",
@@ -663,7 +687,7 @@
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "",
-                    "defaultValue": "create(Button, {\n  type: 'mat-button',\n})"
+                    "defaultValue": "createButton(ButtonType.Basic)"
                 },
                 {
                     "name": "Button",
@@ -674,6 +698,14 @@
                     "defaultValue": "(props: TypedButton) => ({\n  template: buttonTemplate(props.type),\n  props\n})"
                 },
                 {
+                    "name": "buttons",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Object.values(ButtonType).map(type => buttonTemplate(type))"
+                },
+                {
                     "name": "buttonTemplate",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -682,12 +714,20 @@
                     "defaultValue": "(type: string) => `<button ${type}\n                                              [color]=\"color\"\n                                              [disableRipple]=\"disableRipple\"\n                                              [disabled]=\"disabled\"\n                                              (click)=\"click($event)\">{{label}}</button>`"
                 },
                 {
-                    "name": "create",
+                    "name": "createButton",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "",
-                    "defaultValue": "<T>(story: Story, args: any = {}) => {\n  const s = story.bind({}, args || {});\n  // s.args = {...args};\n  return s;\n}"
+                    "defaultValue": "(type: ButtonType) => copyStory(Button, {type})"
+                },
+                {
+                    "name": "createIcon",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "(type: IconType) => copyStory(IconButton, {type})"
                 },
                 {
                     "name": "Fab",
@@ -695,7 +735,7 @@
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "",
-                    "defaultValue": "IconButton.bind({})"
+                    "defaultValue": "createIcon(IconType.Fab)"
                 },
                 {
                     "name": "Flat",
@@ -703,7 +743,7 @@
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "",
-                    "defaultValue": "Button.bind({})"
+                    "defaultValue": "createButton(ButtonType.Flat)"
                 },
                 {
                     "name": "Icon",
@@ -711,7 +751,7 @@
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "",
-                    "defaultValue": "IconButton.bind({})"
+                    "defaultValue": "createIcon(IconType.Icon)"
                 },
                 {
                     "name": "IconButton",
@@ -730,12 +770,20 @@
                     "defaultValue": "(type: string) => `<button ${type}\n                                              [color]=\"color\"\n                                              [disableRipple]=\"disableRipple\"\n                                              [disabled]=\"disabled\"\n                                              (click)=\"click($event)\"><mat-icon>{{icon}}</mat-icon></button>`"
                 },
                 {
+                    "name": "icons",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/mat-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Object.values(IconType).map(type => iconButtonTemplate(type))"
+                },
+                {
                     "name": "MiniFab",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "",
-                    "defaultValue": "IconButton.bind({})"
+                    "defaultValue": "createIcon(IconType.MiniFab)"
                 },
                 {
                     "name": "Raised",
@@ -743,7 +791,7 @@
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "",
-                    "defaultValue": "Button.bind({})"
+                    "defaultValue": "createButton(ButtonType.Raised)"
                 },
                 {
                     "name": "Stroked",
@@ -751,7 +799,7 @@
                     "subtype": "variable",
                     "file": "src/stories/mat-button.stories.ts",
                     "type": "",
-                    "defaultValue": "Button.bind({})"
+                    "defaultValue": "createButton(ButtonType.Stroked)"
                 }
             ],
             "src/stories/arg-types.ts": [
@@ -803,6 +851,16 @@
                     "subtype": "variable",
                     "file": "src/test.ts",
                     "type": "literal type"
+                }
+            ],
+            "src/stories/utils.ts": [
+                {
+                    "name": "copyStory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/utils.ts",
+                    "type": "",
+                    "defaultValue": "(storyFn: Story, args: Record<string, string> = {}) => {\n  const story = storyFn.bind({});\n  story.args = {...args};\n  return story;\n}"
                 }
             ],
             "src/environments/environment.prod.ts": [
@@ -1231,6 +1289,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "buttons",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "buttonTemplate",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -1241,7 +1309,17 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "create",
+                "name": "createButton",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "createIcon",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -1301,6 +1379,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "icons",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/mat-button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "MiniFab",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -1333,6 +1421,16 @@
                 "name": "PageComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/utils.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "copyStory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
